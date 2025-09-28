@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const tar = require("tar");
 const si = require("systeminformation");
 const prompt = require("custom-electron-prompt");
-const { spawn, execFile } = require("child_process");
+const { spawn, execFile, exec } = require("child_process");
 
 const distributed = require("./distributed.js").default;
 
@@ -164,24 +164,19 @@ app.whenReady().then(async () => {
 
 		fs.writeFileSync(path.join(queuePath, "carbon-payload/carbon-naught.py"), pyFile);
 
-		exec("/usr/bin/python3 carbon-naught.py", { cwd: path.join(queuePath, "carbon-payload") }, function (error, stdout, stderr){
-			console.log("finished running carbon-naught.py");
-			if (error) console.error(error);
-			if (stderr) console.error(stderr);
-			if (stdout) console.log(stdout);
-			let resultantPower = powerHistory.reduce((a, b) => a+b, 0)/powerHistory.length;
+		exec("/usr/bin/python3 carbon-naught.py", { cwd: path.join(queuePath, "carbon-payload") }, () => { });
 
-			const end = Date.now();
+		let resultantPower = powerHistory.reduce((a, b) => a+b, 0)/powerHistory.length;
 
-			fs.readFile(path.join(queuePath, "carbon-payload/model.pth"), function (err, data) {
-				if (err) return console.error(err);
-				socket.emit("completed", data, resultantPower - baselinePower, (start - end) / 1000, function (savings) {
-					mWsSavings += savings;
-					mainWindow.webContents.send("savings", mWsSavings);
-				});
+		const end = Date.now();
+
+		fs.readFile(path.join(queuePath, "carbon-payload/model.pth"), function (err, data) {
+			if (err) return console.error(err);
+			socket.emit("completed", data, resultantPower - baselinePower, (start - end) / 1000, function (savings) {
+				mWsSavings += savings;
+				mainWindow.webContents.send("savings", mWsSavings);
 			});
 		});
-
 	});
 
 	let child = spawn("sudo", ["-S", "sh", "-c", "powermetrics --samplers gpu_power,cpu_power -i2000"]);
