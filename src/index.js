@@ -102,11 +102,11 @@ app.whenReady().then(async () => {
 		mainWindow.webContents.send("queue", queue);
 	});
 
-	socket.on("result", async function (file, mWsSaved) {
+	socket.on("result", async function (file, filename, mWsSaved) {
 		mWsSavings += mWsSaved;
 		mainWindow.webContents.send("savings", mWsSavings);
 		mainWindow.webContents.send("resetUpload");
-		fs.writeFile(path.join(app.getPath("downloads"), "carbon-payload.tar.gz"), file, () => { });
+		fs.writeFile(path.join(app.getPath("downloads"), filename), file, () => { });
 	});
 
 	socket.on("execute", async function ([sid, file, mW, isAI]){
@@ -164,7 +164,7 @@ app.whenReady().then(async () => {
 
 		fs.writeFileSync(path.join(queuePath, "carbon-payload/carbon-naught.py"), pyFile);
 
-		execFile("/usr/bin/python3 carbon-naught.py", { cwd: path.join(queuePath, "carbon-payload") }, function (error, stdout, stderr){
+		exec("/usr/bin/python3 carbon-naught.py", { cwd: path.join(queuePath, "carbon-payload") }, function (error, stdout, stderr){
 			console.log("finished running carbon-naught.py");
 			if (error) console.error(error);
 			if (stderr) console.error(stderr);
