@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Carbon</title>
+		<link rel="stylesheet" href="index.css" />
+		<link href="fontawesome/css/all.min.css" rel="stylesheet" />
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+	  	<div class="content">
+			<div class="top">
+				<h1>Carbon ∅</h1>
+				<span class="stats monospace">CPU: 0% GPU: 0% PWR: 0W</span>
+			</div>
+			<div id="job" class="tab">
+				<i class="fa-solid fa-hammer"></i>
+				<h2>Oops... Still under construction</h2>
+			</div>
+			<div id="queue" class="tab active">
+				<div class="stage">
+					<div class="progress"></div>
+					<i class="fa-solid fa-hourglass-half spinner"></i>
+					<i class="fa-solid fa-stopwatch stopwatch"></i>
+					<div class="benchmarker">
+						<span class="benchmark-label">BENCHMARK</span><br>
+						<span class="filename"></span>
+					</div>
+				</div>
+				<br>
+				<span class="optimizations" active="0">Enable AI Runtime Optimizations</span>
+				<br><br>
+				<h2>Active process:</h2>
+				<div class="terminal">$ No process queued</div>
+			</div>
+			<div id="carbon" class="tab">
+				<div id="co2" class="card">
+					<i class="fa-solid fa-industry"></i>
+					<div class="text">
+						<span>You've offset</span>
+						<h2><em>0</em> grams of CO2</h2>
+					</div>
+				</div>
+				<div id="nyc" class="card">
+						<i class="fa-solid fa-city"></i>
+						<div class="text">
+							<span>You've offset</span>
+							<h2><em>0</em> NYC blocks for a day</h2>
+						</div>
+				</div>
+				<div id="gpt" class="card">
+					<i class="fa-brands fa-openai"></i>
+					<div class="text">
+						<span>You've offset</span>
+						<h2><em>0%</em> of ChatGPT3's training</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="sidebar">
+			<h2>Queue</h2>
+			<div class="queue"></div>
+		</div>
+		<div class="tabs">
+			<i id="job" class="fa-solid fa-bolt"></i>
+			<i id="queue" class="active fa-solid fa-arrow-up-from-bracket"></i>
+			<i id="carbon" class="fa-solid fa-leaf"></i>
+		</div>
+	  </body>
+</html>

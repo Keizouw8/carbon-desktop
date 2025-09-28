@@ -1,0 +1,408 @@
+:root{
+	--g1: rgb(0, 104, 74);
+	--g2: rgb(1, 236, 100);
+	--white: rgb(235, 235, 235);
+	--background: rgb(1, 30, 43);
+	--sidebar: rgb(17, 39, 51);
+}
+
+@font-face{
+  src: url(./Inter/Inter-VariableFont_opsz\,wght.ttf);
+  font-family: Inter;
+}
+
+@font-face{
+  src: url(./Inter/Inter-Italic-VariableFont_opsz\,wght.ttf);
+  font-family: Inter Italic;
+}
+
+@font-face{
+  src: url(./JBM/JetBrainsMono-VariableFont_wght.ttf);
+  font-family: JBM;
+}
+
+.monospace{
+	font-family: JBM;
+}
+
+*{
+  margin: 0;
+  font-family: Inter;
+  color: var(--white);
+}
+
+body{
+	background: var(--background);
+}
+
+h1{
+	font-weight: 700;
+}
+
+.sidebar .queue{
+	margin-top: 10px;
+}
+
+.sidebar .queue p{
+	margin-bottom: 5px;
+	pointer-events: none;
+}
+
+.sidebar{
+  background: var(--sidebar);
+  display: block;
+  height: calc(100vh - 40px);
+  width: 250px;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+div.terminal{
+	margin-top: 10px;
+	background: rgb(15, 15, 25);
+	color: white;
+	font-family: JBM;
+	display: block;
+	width: calc(100vw - 370px);
+	padding: 20px;
+	border-radius: 10px;
+	cursor: default;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	max-height: calc(100vh - 490px);
+}
+
+div.stage{
+	background: #21313c;
+	border: 1.5px solid rgb(120, 130, 135);
+	display: block;
+	width: calc(100vw - 337px);
+	height: 250px;
+	position: relative;
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	transition: 0.2s;
+}
+
+div.stage::after{
+	content: "Drop Folder Here...";
+	color: rgba(100,100,100);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	font-weight: 500;
+	font-family: Inter Italic;
+	pointer-events: none;
+}
+
+div.stage.loading::after, div.stage.benchmark::after{
+	content: "";
+}
+
+div.stage span.benchmark-label{
+	color: white;
+	font-family: Inter Italic;
+	font-weight: 900;
+	font-size: 50px;
+}
+
+div.stage div.benchmarker{
+	opacity: 0;
+	transition: 0.3s;
+	position: absolute;
+	pointer-events: none;
+}
+
+div.stage.benchmark div.benchmarker{
+	opacity: 1;
+}
+
+div.stage span.filename{
+	color: white;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+div.stage i.spinner{
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.3s;
+	animation: infinite 1.5s spinner;
+	font-size: 30px;
+	color: rgb(150,150,150);
+	position: absolute;
+}
+
+div.stage.loading i.spinner{
+	opacity: 1;
+}
+
+div.stage i.stopwatch{
+	color: rgb(0,0,0,0.3);
+	position: absolute;
+	transition: 0.3s;
+	opacity: 0;
+	font-size: 300px;
+	left: -100px;
+	top: 20px;
+	transform: rotateZ(30deg);
+}
+
+div.stage:hover i.stopwatch{
+	font-size: 325px;
+}
+
+div.stage.benchmark i.stopwatch{
+	opacity: 1;
+}
+
+div.stage.loading{
+	pointer-events: none;
+}
+
+div.stage.benchmark {
+	background: linear-gradient(to right, lab(59.866 22.4834 -64.4485) 0%, lab(63.6946 47.6127 -59.2066) 100%);
+	color: white;
+}
+
+@keyframes spinner{
+	0%{
+		transform: rotateZ(0deg);
+	}
+	20%{
+		transform: rotateZ(0deg);
+	}
+	80%{
+		transform: rotateZ(360deg);
+	}
+	100%{
+		transform: rotateZ(360deg);
+	}
+}
+
+div.stage div.progress{
+	background: linear-gradient(135deg, #b1ff05 0%, #00ed64 94.83%);
+	position: absolute;
+	width: calc(100% + 100px);
+	height: 250px;
+	top: 0;
+	left: -100%;
+	clip-path: polygon(0% 0%, calc(100% - 100px) 0%, 100% 50%, calc(100% - 100px) 100%, 0% 100%);
+	opacity: 0;
+	transition: 1s;
+	pointer-events: none;
+}
+
+div.stage div.progress.active{
+	opacity: 1;
+	animation: forwards 20s progress ease-in;
+}
+
+@keyframes progress{
+	0%{
+		left: -100%;
+	}
+	100%{
+		left: 0;
+	}
+}
+
+span.stats{
+	background: linear-gradient(135deg, #b1ff05 0%, #00ed64 94.83%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+em{
+	font-style: normal;
+	background: linear-gradient(135deg, #b1ff05 0%, #00ed64 94.83%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+div.content{
+	position: relative;
+	width: calc(100vw - 330px);
+	padding: 20px;
+}
+
+.top{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: calc(100%);
+	margin-bottom: 20px;
+}
+
+span.optimizations{
+	background: linear-gradient(to right, lab(59.866 22.4834 -64.4485) 0%, lab(63.6946 47.6127 -59.2066) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    font-size: 20px;
+    float: right;
+    cursor: pointer;
+}
+
+div.tabs{
+	position: fixed;
+	right: 41px;
+	bottom: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1.5px solid rgba(255, 255, 255, 0.2);
+	padding: 5px;
+	border-radius: 30px;
+	backdrop-filter: blur(2px);
+}
+
+div.tabs i{
+	cursor: pointer;
+	color: white;
+	padding: 8px 20px;
+	font-size: 20px;
+	border-radius: 20px;
+	transition: 0.2s;
+}
+
+div.tabs i.active{
+	background: rgba(255, 255, 255, 0.2);
+}
+
+div.tab{
+	display: none;
+}
+
+div.tab.active{
+	display: block;
+}
+
+div#job{
+	margin-top: 200px;
+	justify-items: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+div#job.active{
+	display: flex;
+	height: 100%;
+}
+
+#job i{
+	font-size: 75px;
+	margin-bottom: 20px;
+}
+
+div#carbon{
+	position: fixed;
+	top: 78.5px;
+	left: 0;
+	width: calc(100vw - 290px);
+	height: calc(100vh - 78.5px);
+	overflow-x: scroll;
+	scroll-snap-type: x mandatory;
+}
+
+#carbon .card{
+	scroll-snap-align: start;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	justify-content: center;
+}
+
+#carbon .card i{
+	font-size: 300px;
+}
+
+#carbon .card .text{
+	width: 400px;
+	margin-right: 100px;
+}
+
+#carbon .card span{
+	font-size: 40px;
+	font-weight: 700;
+}
+
+#carbon .card h2{
+	font-size: 70px;
+	font-weight: 850;
+}
+
+#nyc{
+	left: 100%;
+}
+
+#gpt{
+	left: 200%;
+}
+
+@media screen and (width < 1260px){
+	#carbon .card{
+		flex-direction: column;
+	}
+
+	#carbon .card i{
+		font-size: 300px;
+	}
+
+	#carbon .card .text{
+		width: 400px;
+		margin: 0;
+		margin-top: 50px;
+		text-align: center;
+	}
+}
+
+@media screen and (width < 770px){
+	div.content{
+		width: calc(100vw - 40px);
+		padding: 20px;
+	}
+
+	div.terminal{
+		width: calc(100vw - 80px);
+	}
+
+	div#carbon{
+		width: 100vw;
+	}
+
+	div.stage {
+		width: calc(100vw - 43px);
+	}
+
+	.sidebar{
+		display: none;
+	}
+
+	div.tabs{
+		right: 50%;
+		transform: translateX(104px);
+	}
+}
+
+@media screen and (height < 144px){
+	div.tabs{
+		display: none;
+	}
+}
